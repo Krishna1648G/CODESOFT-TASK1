@@ -1,137 +1,341 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Basic Calculator</title>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>Calculator</title>
+
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
+            margin: 0;
+            min-height: 100vh;
+
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            background: linear-gradient(to right, #4facfe, #00f2fe);
+
             font-family: Arial, sans-serif;
+
+            background: linear-gradient(
+                to right,
+                #4facfe,
+                #00f2fe
+            );
         }
 
+        /* Calculator body */
         .calculator {
+            width: 425px;
+            padding: 25px;
+
             background: #222;
-            padding: 20px;
-            border-radius: 15px;
-            width: 300px;
+            border-radius: 18px;
         }
 
+        /* Display */
         #display {
             width: 100%;
-            height: 60px;
-            font-size: 22px;
-            text-align: right;
-            margin-bottom: 15px;
-            padding: 10px;
+            height: 100px;
+
+            margin-bottom: 18px;
+            padding: 10px 15px;
+
             border: none;
-            border-radius: 8px;
+            border-radius: 9px;
+
+            background-color: #fff8f8;
+            color: #111;
+
+            font-size: 30px;
+            text-align: right;
+
+            outline: none;
         }
 
+        /* Buttons layout */
         .buttons {
             display: grid;
+
             grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
+
+            gap: 12px;
         }
 
+        /* All buttons */
         button {
-            padding: 15px;
-            font-size: 18px;
+            height: 64px;
+
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
+
+            background-color: #eeeeee;
+            color: #111;
+
+            font-size: 23px;
+
             cursor: pointer;
+
+            transition: 0.1s;
         }
 
         button:hover {
-            opacity: 0.8;
+            opacity: 0.85;
         }
 
-        .operator {
-            background-color: orange;
-            color: white;
+        button:active {
+            transform: scale(0.96);
         }
 
-        .equal {
-            background-color: green;
-            color: white;
-            grid-column: span 2;
-        }
-
+        /* AC button */
         .clear {
-            background-color: red;
+            background-color: #ff0808;
             color: white;
+        }
+
+        /* Backspace */
+        .backspace {
+            background-color: #eeeeee;
+            color: #111;
+        }
+
+        /* Operators */
+        .operator {
+            background-color: #ffa500;
+            color: white;
+        }
+
+        /* Equal button */
+        .equal {
+            grid-column: span 2;
+
+            background-color: #008f00;
+            color: white;
+        }
+
+        /* Mobile */
+        @media (max-width: 500px) {
+
+            .calculator {
+                width: 92%;
+                padding: 18px;
+            }
+
+            #display {
+                height: 85px;
+                font-size: 26px;
+            }
+
+            .buttons {
+                gap: 9px;
+            }
+
+            button {
+                height: 58px;
+                font-size: 21px;
+            }
         }
     </style>
 </head>
 
 <body>
 
-<div class="calculator">
-    <input type="text" id="display" disabled>
+    <div class="calculator">
 
-    <div class="buttons">
-        <button class="clear">C</button>
-        <button class="operator">/</button>
-        <button class="operator">*</button>
-        <button class="operator">-</button>
+        <!-- Display -->
+        <input
+            type="text"
+            id="display"
+            readonly
+        >
 
-        <button>7</button>
-        <button>8</button>
-        <button>9</button>
-        <button class="operator">+</button>
+        <!-- Calculator Buttons -->
+        <div class="buttons">
 
-        <button>4</button>
-        <button>5</button>
-        <button>6</button>
-        <button>1</button>
+            <!-- Row 1 -->
+            <button class="clear" onclick="clearDisplay()">
+                AC
+            </button>
 
-        <button>2</button>
-        <button>3</button>
-        <button>0</button>
-        <button class="equal">=</button>
+            <button class="backspace" onclick="backspace()">
+                ⌫
+            </button>
+
+            <button class="operator" onclick="percentage()">
+                %
+            </button>
+
+            <button class="operator" onclick="addValue('/')">
+                /
+            </button>
+
+
+            <!-- Row 2 -->
+            <button onclick="addValue('7')">
+                7
+            </button>
+
+            <button onclick="addValue('8')">
+                8
+            </button>
+
+            <button onclick="addValue('9')">
+                9
+            </button>
+
+            <button class="operator" onclick="addValue('*')">
+                *
+            </button>
+
+
+            <!-- Row 3 -->
+            <button onclick="addValue('4')">
+                4
+            </button>
+
+            <button onclick="addValue('5')">
+                5
+            </button>
+
+            <button onclick="addValue('6')">
+                6
+            </button>
+
+            <button class="operator" onclick="addValue('-')">
+                -
+            </button>
+
+
+            <!-- Row 4 -->
+            <button onclick="addValue('1')">
+                1
+            </button>
+
+            <button onclick="addValue('2')">
+                2
+            </button>
+
+            <button onclick="addValue('3')">
+                3
+            </button>
+
+            <button class="operator" onclick="addValue('+')">
+                +
+            </button>
+
+
+            <!-- Row 5 -->
+            <button onclick="addValue('0')">
+                0
+            </button>
+
+            <button onclick="addValue('.')">
+                .
+            </button>
+
+            <button class="equal" onclick="calculate()">
+                =
+            </button>
+
+        </div>
     </div>
-</div>
 
-<script>
-    let display = document.getElementById("display");
-    let buttons = document.querySelectorAll("button");
 
-    let input = "";
+    <script>
 
-    buttons.forEach(function(button) {
+        let display = document.getElementById("display");
 
-        button.addEventListener("click", function() {
 
-            let value = button.textContent;
+        // Add number/operator to display
+        function addValue(value) {
 
-            if (value === "C") {
-                input = "";
-                display.value = "";
+            display.value += value;
+
+        }
+
+
+        // Clear calculator
+        function clearDisplay() {
+
+            display.value = "";
+
+        }
+
+
+        // Backspace
+        function backspace() {
+
+            display.value =
+                display.value.slice(0, -1);
+
+        }
+
+
+        // Percentage
+        function percentage() {
+
+            if (display.value !== "") {
+
+                let value =
+                    parseFloat(display.value);
+
+                display.value =
+                    value / 100;
+
             }
 
-            else if (value === "=") {
-                try {
-                    input = eval(input);   // perform calculation
-                    display.value = input;
-                } 
-                catch {
-                    display.value = "Error";
+        }
+
+
+        // Calculate result
+        function calculate() {
+
+            try {
+
+                if (display.value === "") {
+                    return;
                 }
+
+                let expression =
+                    display.value;
+
+                // Only allow calculator characters
+                if (!/^[0-9+\-*/.() ]+$/.test(expression)) {
+                    throw new Error();
+                }
+
+                let result =
+                    Function(
+                        '"use strict"; return (' +
+                        expression +
+                        ')'
+                    )();
+
+                if (!Number.isFinite(result)) {
+                    throw new Error();
+                }
+
+                display.value = result;
+
             }
 
-            else {
-                input += value;
-                display.value = input;
+            catch {
+
+                display.value = "Error";
+
+                setTimeout(function () {
+                    display.value = "";
+                }, 1000);
+
             }
 
-        });
+        }
 
-    });
-</script>
+    </script>
 
 </body>
 </html>
